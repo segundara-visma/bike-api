@@ -1,0 +1,14 @@
+{
+    "filesystem": {
+      "invalidFileType": "Invalid file type"
+    },
+    "import": {
+      "onRow": "Rivillä {{row}}",
+      "couldntProcessImportFile": "Tiedostoa ei voitu käsitellä.",
+      "thereAreNoDataRowsImportFile": "Tiedostossa ei ollut tietoarvoja.",
+      "missingHeadersImportFile": "Tiedostosta puuttuivat seuraavat header-otsikot: {{headers}}.",
+      "started": "Tietoja tuodaan...",
+      "errorTerminate": "Tietojen tuonnissa tapahtui odottamaton virhe. Toimenpide keskeytetään.",
+      "completed": "Valmis"
+    }
+}
