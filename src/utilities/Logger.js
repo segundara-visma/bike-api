@@ -22,7 +22,7 @@ class Logger
   // Groups many log entries. Helps to track, for example the users process.
   _sessionId
 
-  // TODO Explain purpose.
+  // Parameters that will be included in every log entry
   _stickyParams
 
   static logStoragePath (filename) {
