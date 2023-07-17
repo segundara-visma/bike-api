@@ -1,0 +1,11 @@
+var path = require('path')
+require('dotenv').config()
+// Set the base path of the app based on the environment.
+let SRC_PATH = process.cwd()
+SRC_PATH += process.env.ENVIRONMENT === 'development' ? '/src' : '/dist'
+
+module.exports = {
+  'config': path.resolve(SRC_PATH + '/config', 'sequelize-cli.config.json'),
+  'seeders-path': path.resolve('db', 'seeders'),
+  'migrations-path': path.resolve('db', 'migrations')
+}
