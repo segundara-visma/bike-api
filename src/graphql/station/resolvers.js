@@ -11,20 +11,13 @@ import { storeFileStream } from '../../utilities/filesystem/NewUpload.js'
 // Repositories
 import {Repository} from '../../repositories/StationRepository.js'
 
-import path from 'path';
-import { fileURLToPath } from 'url';
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
-
-
 const StationResolvers = {
   /**
    * Performs a search which returns products with their publisher, licenses, media, likes and categories.
    * @param {Object} root
    * @param {Object} args
-   * @param {Object} context
    */
-  get: async (root, { id }, context) => {
+  get: async (root, { id }) => {
     return Repository.get(id)
   },
 
@@ -32,9 +25,8 @@ const StationResolvers = {
    * Performs a search which returns products with their publisher, licenses, media, likes and categories.
    * @param {Object} root
    * @param {Object} args
-   * @param {Object} context
    */
-  all: async (root, { config, search }, context) => {
+  all: async (root, { config, search }) => {
     return Repository.all(search, config)
   },
 
@@ -54,7 +46,7 @@ const StationResolvers = {
     const stream = createReadStream()
     // Store the uploaded import file.
     const prefix = moment().format('YYYYMMDD_HHmmss')
-    const destDir = __dirname + '/../../' + process.env.TEMPORARY_DIR + '/imports/station'
+    const destDir = process.env.TEMPORARY_DIR + '/imports/station'
     const uploadedPath = await storeFileStream(stream, filename, destDir, prefix)
 
     let rows

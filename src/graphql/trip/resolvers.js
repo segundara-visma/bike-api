@@ -8,19 +8,12 @@ import { storeFileStream } from '../../utilities/filesystem/NewUpload.js'
 // Repositories
 import {Repository} from '../../repositories/TripRepository.js'
 
-import path from 'path';
-import { fileURLToPath } from 'url';
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
-
-
 const TripResolvers = {/**
    * Performs a search which returns products with their publisher, licenses, media, likes and categories.
    * @param {Object} root
    * @param {Object} args
-   * @param {Object} context
    */
-  all: async (root, { config, search }, context) => {
+  all: async (root, { config, search }) => {
     return Repository.all(search, config)
   },
 
@@ -40,7 +33,7 @@ const TripResolvers = {/**
     const stream = createReadStream()
     // Store the uploaded import file.
     const prefix = moment().format('YYYYMMDD_HHmmss')
-    const destDir = __dirname + '/../../' + process.env.TEMPORARY_DIR + '/imports/trip'
+    const destDir = process.env.TEMPORARY_DIR + '/imports/trip'
     const uploadedPath = await storeFileStream(stream, filename, destDir, prefix)
 
     let rows
@@ -129,12 +122,12 @@ const TripResolvers = {/**
         body: context.__(filename + ' Validated. Preparing for import...')
       })
 
-      const chunkSize = 1000;
+      const chunkSize = 1000
       let successLen = 0
 
       ProcessHandler.updateProgress(process.pid, 0, parsedValues.length)
       for (let i = 0; i < parsedValues.length; i += chunkSize) {
-        const chunk = parsedValues.slice(i, i + chunkSize);
+        const chunk = parsedValues.slice(i, i + chunkSize)
         const currentBatch = successLen + chunk.length
         ProcessHandler.updateProgress(process.pid, currentBatch, parsedValues.length)
         await Repository.bulkCreate(chunk)
