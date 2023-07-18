@@ -1,6 +1,7 @@
 console.clear()
 
 const port = process.env.APP_PORT || 3300
+const host = process.env.APP_HOST
 import http from 'http'
 
 import { ApolloServer } from 'apollo-server-express'
@@ -20,7 +21,7 @@ import {schema} from './graphql/schema.js'
 
 import gpl from 'graphql-tag'
 import {Logger} from './utilities/Logger.js'
-import whiteList from './config/cross-site-origins.json' assert { type: "json" }
+import whiteList from './config/cross-site-origins.json' assert { type: 'json' }
 
 async function startApolloServer (schema, endpoint, port, middlewares) {
   const app = express()
@@ -150,7 +151,7 @@ async function startApolloServer (schema, endpoint, port, middlewares) {
   })
 
   await new Promise(resolve => httpServer.listen({ port }, resolve))
-  console.log(`🚀 Server ready at http://localhost:${port}${server.graphqlPath}`)
+  console.log(`🚀 Server ready at ${host}:${port}${server.graphqlPath}`)
 }
 
 startApolloServer(schema, '/graphql', port, [])
