@@ -59,7 +59,7 @@ const TripType = new GraphQLObjectType({
 })
 
 /**
- * Input object that has multiple values which are used when getting all tips. All the fields are optional.
+ * Input object that has multiple values which are used when getting all trips. All the fields are optional.
  */
 const TripSearchType = new GraphQLInputObjectType({
   name: 'TripSearchType',

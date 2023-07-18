@@ -8,8 +8,8 @@ import { storeFileStream } from '../../utilities/filesystem/NewUpload.js'
 // Repositories
 import {Repository} from '../../repositories/TripRepository.js'
 
-const TripResolvers = {/**
-   * Performs a search which returns products with their publisher, licenses, media, likes and categories.
+const TripResolvers = {
+  /**
    * @param {Object} root
    * @param {Object} args
    */
