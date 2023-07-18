@@ -1,5 +1,5 @@
 // Vendor types
-import { GraphQLInt } from 'graphql'
+import { GraphQLInt, GraphQLString, GraphQLNonNull } from 'graphql'
 // Custom types
 import { SearchResultConfigType } from '../global/types.js'
 import {
@@ -18,11 +18,15 @@ export default {
    */
   station: {
     type: StationType,
-    description: '',
+    description: 'Search for one station by its identification number',
     args: {
       id: {
-        type: GraphQLInt,
-        description: ''
+        type: new GraphQLNonNull(GraphQLInt),
+        description: 'Identification number for the station to be searched'
+      },
+      date: {
+        type: GraphQLString,
+        description: 'Year and month to be considered when including the trips to and from this station'
       }
     },
     resolve: StationResolvers.get

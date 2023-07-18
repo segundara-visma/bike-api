@@ -13,16 +13,14 @@ import {Repository} from '../../repositories/StationRepository.js'
 
 const StationResolvers = {
   /**
-   * Performs a search which returns products with their publisher, licenses, media, likes and categories.
    * @param {Object} root
    * @param {Object} args
    */
-  get: async (root, { id }) => {
-    return Repository.get(id)
+  get: async (root, { id, date }) => {
+    return Repository.get(id, date)
   },
 
   /**
-   * Performs a search which returns products with their publisher, licenses, media, likes and categories.
    * @param {Object} root
    * @param {Object} args
    */
