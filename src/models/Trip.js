@@ -2,6 +2,8 @@
 import { DataTypes } from 'sequelize'
 // Sequelize instance
 import {sequelize} from '../utilities/Database.js'
+// Models
+import {Station} from './Station.js'
 
 const Trip = sequelize.define('trips',
   {
@@ -65,5 +67,23 @@ const Trip = sequelize.define('trips',
     deletedAt: 'deleted_at',
     tableName: 'trips'
   })
+
+Station.hasMany(Trip, {
+  foreignKey: 'departure_station_id',
+  as: 'departureTrips'
+})
+Trip.belongsTo(Station, {
+  foreignKey: 'departure_station_id',
+  as: 'departureTrips'
+})
+
+Station.hasMany(Trip, {
+  as: 'returnTrips',
+  foreignKey: 'return_station_id'
+})
+Trip.belongsTo(Station, {
+  foreignKey: 'return_station_id',
+  as: 'returnTrips'
+})
 
 export {Trip}
