@@ -35,10 +35,10 @@ const StationType = new GraphQLObjectType({
     capacity: {
       type: GraphQLInt
     },
-    x_coord: {
+    xCoord: {
       type: GraphQLFloat
     },
-    y_coord: {
+    yCoord: {
       type: GraphQLFloat
     },
     createdAt: {

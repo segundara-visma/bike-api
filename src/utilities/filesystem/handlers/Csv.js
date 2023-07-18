@@ -30,7 +30,7 @@ export class CsvHandler {
         .on('error', function (err) {
           reject(err)
         })
-        .on("data", (row) => {
+        .on('data', (row) => {
           results.push(row)
         })
         .on('end', () => {

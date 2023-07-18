@@ -1,39 +1,37 @@
 import {Station} from '../models/Station.js'
-
 import {Trip} from '../models/Trip.js'
-
-import { literal } from 'sequelize'
+import { Op, literal } from 'sequelize'
 import moment from 'moment'
 import {Exception} from '../helpers/Exception.js'
 
 export class Repository {
-    /**
+  /**
      * Get product by identification number.
      * @param {Number} id
      * @returns {Object|null}
      */
-    static async get (id) {
-      const options = {
-        where: {
-          id
+  static async get (id) {
+    const options = {
+      where: {
+        id
+      },
+      // paranoid: false,
+      include: [
+        {
+          model: Trip,
+          as: 'departureTrips'
         },
-        // paranoid: false,
-        include: [
-          {
-            model: Trip,
-            as: 'departureTrips'
-          },
-          {
-            model: Trip,
-            as: 'returnTrips'
-          }
-        ]
-      }
-  
-      const station = await Station.findOne(options)
-  
-      return station
+        {
+          model: Trip,
+          as: 'returnTrips'
+        }
+      ]
     }
+
+    const station = await Station.findOne(options)
+
+    return station
+  }
 
   static async all (search, config) {
     const where = {}
@@ -46,31 +44,31 @@ export class Repository {
     }
 
     if (search.keywords) {
-        if (search.keywords) {
-          // User can search with multiple keywords by separating them with comma.
-          const words = search.keywords.split(',').filter((a) => {
-            return a.length >= 2
-          })
-  
-          // Columns to include in keyword search.
-          const likeColumns = [
-            '`stations`.`name`',
-            '`stations`.`city`'
-          ]
+      if (search.keywords) {
+        // User can search with multiple keywords by separating them with comma.
+        const words = search.keywords.split(',').filter((a) => {
+          return a.length >= 2
+        })
 
-          const likeConditions = []
-          for (const i in likeColumns) {
-            for (const j in words) {
-              likeConditions.push(
-                literal(likeColumns[i] + ' LIKE \'%' + words[j] + '%\'')
-              )
-            }
+        // Columns to include in keyword search.
+        const likeColumns = [
+          '`stations`.`name`',
+          '`stations`.`city`'
+        ]
+
+        const likeConditions = []
+        for (const i in likeColumns) {
+          for (const j in words) {
+            likeConditions.push(
+              literal(likeColumns[i] + ' LIKE \'%' + words[j] + '%\'')
+            )
           }
-          // Add conditions to where object.
-          where[Op.and] = [{
-            [Op.or]: likeConditions
-          }]
         }
+        // Add conditions to where object.
+        where[Op.and] = [{
+          [Op.or]: likeConditions
+        }]
+      }
     }
 
     let ordering = null
@@ -114,17 +112,17 @@ export class Repository {
     }
   }
 
-  static async create (input, context) {
+  static async create (input) {
 
     const dbPayload = {
-        id: input.id,
-        name: input.name,
-        address: input.address,
-        city: input.city,
-        operator: input.operator,
-        capacity: input.capacity,
-        xCoord: input.xCoord,
-        yCoord: input.yCoord
+      id: input.id,
+      name: input.name,
+      address: input.address,
+      city: input.city,
+      operator: input.operator,
+      capacity: input.capacity,
+      xCoord: input.xCoord,
+      yCoord: input.yCoord
     }
     dbPayload.createdAt = moment().format('YYYY-MM-DD HH:mm')
 

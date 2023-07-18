@@ -11,7 +11,7 @@ import StationMutations from './station/mutations.js'
 import {ProcessHandler} from '../utilities/ProcessHandler.js'
 
 // Pool all queries together
-let allQueries = {
+const allQueries = {
   ...TripQueries,
   ...StationQueries,
   importStatus: {
@@ -30,7 +30,7 @@ let allQueries = {
 }
 
 // Pool all mutations together
-let allMutations = {
+const allMutations = {
   ...TripMutations,
   ...StationMutations
 }

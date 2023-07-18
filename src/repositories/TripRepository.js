@@ -1,6 +1,6 @@
 import {Trip} from '../models/Trip.js'
 
-import { literal } from 'sequelize'
+import { Op, literal } from 'sequelize'
 import moment from 'moment'
 import {Exception} from '../helpers/Exception.js'
 
@@ -16,31 +16,31 @@ export class Repository {
     }
 
     if (search.keywords) {
-        if (search.keywords) {
-          // User can search with multiple keywords by separating them with comma.
-          const words = search.keywords.split(',').filter((a) => {
-            return a.length >= 2
-          })
-  
-          // Columns to include in keyword search.
-          const likeColumns = [
-            '`trips`.`departure_station_name`',
-            '`trips`.`return_station_name`'
-          ]
+      if (search.keywords) {
+        // User can search with multiple keywords by separating them with comma.
+        const words = search.keywords.split(',').filter((a) => {
+          return a.length >= 2
+        })
 
-          const likeConditions = []
-          for (const i in likeColumns) {
-            for (const j in words) {
-              likeConditions.push(
-                literal(likeColumns[i] + ' LIKE \'%' + words[j] + '%\'')
-              )
-            }
+        // Columns to include in keyword search.
+        const likeColumns = [
+          '`trips`.`departure_station_name`',
+          '`trips`.`return_station_name`'
+        ]
+
+        const likeConditions = []
+        for (const i in likeColumns) {
+          for (const j in words) {
+            likeConditions.push(
+              literal(likeColumns[i] + ' LIKE \'%' + words[j] + '%\'')
+            )
           }
-          // Add conditions to where object.
-          where[Op.and] = [{
-            [Op.or]: likeConditions
-          }]
         }
+        // Add conditions to where object.
+        where[Op.and] = [{
+          [Op.or]: likeConditions
+        }]
+      }
     }
 
     let ordering = null
@@ -84,17 +84,17 @@ export class Repository {
     }
   }
 
-  static async create (input, context) {
+  static async create (input) {
 
     const dbPayload = {
-        departure: input.departure,
-        return: input.return,
-        departureStationId: input.departureStationId,
-        departureStationName: input.departureStationName,
-        returnStationId: input.returnStationId,
-        returnStationName: input.returnStationName,
-        coveredDistance: input.coveredDistance,
-        duration: input.duration
+      departure: input.departure,
+      return: input.return,
+      departureStationId: input.departureStationId,
+      departureStationName: input.departureStationName,
+      returnStationId: input.returnStationId,
+      returnStationName: input.returnStationName,
+      coveredDistance: input.coveredDistance,
+      duration: input.duration
     }
     dbPayload.createdAt = moment().format('YYYY-MM-DD HH:mm')
 

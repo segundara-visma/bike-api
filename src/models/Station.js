@@ -57,16 +57,16 @@ const Station = sequelize.define('stations',
     tableName: 'stations'
   })
 
-  Station.hasMany(Trip, {
-    as: 'departureTrips',
-    foreignKey: 'departure_station_id'
-  });
-  Trip.belongsTo(Station, { foreignKey: 'departure_station_id', as: 'departureTrips', onDelete: 'CASCADE' });
+Station.hasMany(Trip, {
+  as: 'departureTrips',
+  foreignKey: 'departure_station_id'
+})
+Trip.belongsTo(Station, { foreignKey: 'departure_station_id', as: 'departureTrips', onDelete: 'CASCADE' })
 
-  Station.hasMany(Trip, {
-    as: 'returnTrips',
-    foreignKey: 'return_station_id'
-  });
-  Trip.belongsTo(Station, { foreignKey: 'return_station_id', as: 'returnTrips', onDelete: 'CASCADE' });
+Station.hasMany(Trip, {
+  as: 'returnTrips',
+  foreignKey: 'return_station_id'
+})
+Trip.belongsTo(Station, { foreignKey: 'return_station_id', as: 'returnTrips', onDelete: 'CASCADE' })
 
 export {Station}

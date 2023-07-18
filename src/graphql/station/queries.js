@@ -33,7 +33,7 @@ export default {
    * @param {SearchResultConfigType} config Modifies the search, with pagination, column sorting and output.
    * @param {StationSearchType} search Specific parameters used in station search.
    */
-   stations: {
+  stations: {
     type: StationSearchResultResponseType,
     description: 'Station search query that responses with search results.',
     args: {

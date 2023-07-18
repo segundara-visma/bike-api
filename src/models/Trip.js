@@ -66,4 +66,4 @@ const Trip = sequelize.define('trips',
     tableName: 'trips'
   })
 
-  export {Trip}
+export {Trip}
