@@ -12,6 +12,40 @@ import {
 // Global types
 import { ResultInfo } from '../global/types.js'
 
+const ReturnType = new GraphQLObjectType({
+  name: 'ReturnType',
+  description: '', // TODO Create description.
+  fields: () => ({
+    returnStationId: {
+      type: new GraphQLNonNull(GraphQLInt),
+      description: ''
+    },
+    returnStationName: {
+      type: GraphQLString
+    },
+    count: {
+      type: GraphQLInt
+    }
+  })
+})
+
+const departureType = new GraphQLObjectType({
+  name: 'departureType',
+  description: '', // TODO Create description.
+  fields: () => ({
+    departureStationId: {
+      type: new GraphQLNonNull(GraphQLInt),
+      description: ''
+    },
+    departureStationName: {
+      type: GraphQLString
+    },
+    count: {
+      type: GraphQLInt
+    }
+  })
+})
+
 const StationType = new GraphQLObjectType({
   name: 'StationType',
   description: '', // TODO Create description.
@@ -41,19 +75,35 @@ const StationType = new GraphQLObjectType({
     yCoord: {
       type: GraphQLFloat
     },
+    mostReturn: {
+      type: new GraphQLList(ReturnType)
+    },
+    mostDeparture: {
+      type: new GraphQLList(departureType)
+    },
+    returnCount: {
+      type: GraphQLInt
+    },
+    departureCount: {
+      type: GraphQLInt
+    },
+    departureDistanceSum: {
+      type: GraphQLInt
+    },
+    returnDistanceSum: {
+      type: GraphQLInt
+    },
     createdAt: {
-      allowNull: false,
       type: new GraphQLNonNull(GraphQLString)
     },
     updatedAt: {
-      allowNull: true,
       type: new GraphQLNonNull(GraphQLString)
     }
   })
 })
 
 /**
- * Input object that has multiple values which are used when getting all tips. All the fields are optional.
+ * Input object that has multiple values which are used when getting all stations. All the fields are optional.
  */
 const StationSearchType = new GraphQLInputObjectType({
   name: 'StationSearchType',
