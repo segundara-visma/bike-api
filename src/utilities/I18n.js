@@ -6,11 +6,11 @@ import { i18nConfig } from '../config/app.js'
 
 const localeHelper = function (locale) {
   switch (locale) {
-  case 'en':
-    return 'en-US'
   case 'fi':
-  default:
     return 'fi-FI'
+  case 'en':
+  default:
+    return 'en-US'
   }
 }
 const myDetector = {
