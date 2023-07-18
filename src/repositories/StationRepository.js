@@ -1,34 +1,35 @@
 import {Station} from '../models/Station.js'
-import {Trip} from '../models/Trip.js'
 import { Op, literal } from 'sequelize'
 import moment from 'moment'
 import {Exception} from '../helpers/Exception.js'
 
 export class Repository {
   /**
-     * Get product by identification number.
+     * Get station by identification number.
      * @param {Number} id
      * @returns {Object|null}
      */
-  static async get (id) {
+  static async get (id, date) {
     const options = {
       where: {
         id
-      },
-      // paranoid: false,
-      include: [
-        {
-          model: Trip,
-          as: 'departureTrips'
-        },
-        {
-          model: Trip,
-          as: 'returnTrips'
-        }
-      ]
+      }
     }
 
     const station = await Station.findOne(options)
+
+    if(station) {
+      const departureTrips = await station.departuresFromThisStation(date)
+      const returnTrips = await station.returnsToThisStation(date)
+
+      station.mostReturn = departureTrips.mostReturnStations
+      station.departureCount = departureTrips.departureCount
+      station.departureDistanceSum = departureTrips.departureDistanceSum
+
+      station.mostDeparture = returnTrips.mostDepartureStations
+      station.returnCount = returnTrips.returnCount
+      station.returnDistanceSum = returnTrips.returnDistanceSum
+    }
 
     return station
   }

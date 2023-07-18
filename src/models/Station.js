@@ -1,5 +1,5 @@
 // Vendors
-import { DataTypes } from 'sequelize'
+import { DataTypes, Sequelize, Op } from 'sequelize'
 // Sequelize instance
 import {sequelize} from '../utilities/Database.js'
 // Models
@@ -57,16 +57,66 @@ const Station = sequelize.define('stations',
     tableName: 'stations'
   })
 
-Station.hasMany(Trip, {
-  as: 'departureTrips',
-  foreignKey: 'departure_station_id'
-})
-Trip.belongsTo(Station, { foreignKey: 'departure_station_id', as: 'departureTrips', onDelete: 'CASCADE' })
+Station.prototype.departuresFromThisStation = async function (date) {
+  const where = {
+    departureStationId: this.id
+  }
+  if(date){
+    where.departure = {
+      [Op.startsWith]: date
+    }
+  }
+  const tripsStartingFromThisStation = Trip.findAll({
+    where: where,
+    group: ['returnStationId', 'returnStationName'],
+    attributes: ['returnStationId', 'returnStationName',
+      [sequelize.fn('COUNT', sequelize.col('return_station_name')), 'count'],
+      [sequelize.fn('sum', sequelize.col('covered_distance')), 'total']
+    ],
+    order: [
+      [Sequelize.literal('count'), 'DESC']
+    ],
+    raw: true
+  })
 
-Station.hasMany(Trip, {
-  as: 'returnTrips',
-  foreignKey: 'return_station_id'
-})
-Trip.belongsTo(Station, { foreignKey: 'return_station_id', as: 'returnTrips', onDelete: 'CASCADE' })
+  const alltrips = await tripsStartingFromThisStation
+
+  return {
+    mostReturnStations: alltrips.slice(0, 5),
+    departureCount: alltrips.reduce((acc, cur) => acc + cur.count, 0),
+    departureDistanceSum: alltrips.reduce((acc, cur) => acc + cur.total, 0)
+  }
+}
+
+Station.prototype.returnsToThisStation = async function (date) {
+  const where = {
+    returnStationId: this.id
+  }
+  if(date){
+    where.return = {
+      [Op.startsWith]: date
+    }
+  }
+  const tripsEndingAtThisStation = Trip.findAll({
+    where: where,
+    group: ['departureStationId', 'departureStationName'],
+    attributes: ['departureStationId', 'departureStationName',
+      [sequelize.fn('COUNT', sequelize.col('departure_station_name')), 'count'],
+      [sequelize.fn('sum', sequelize.col('covered_distance')), 'total']
+    ],
+    order: [
+      [Sequelize.literal('count'), 'DESC']
+    ],
+    raw: true
+  })
+
+  const alltrips = await tripsEndingAtThisStation
+
+  return {
+    mostDepartureStations: alltrips.slice(0, 5),
+    returnCount: alltrips.reduce((acc, cur) => acc + cur.count, 0),
+    returnDistanceSum: alltrips.reduce((acc, cur) => acc + cur.total, 0)
+  }
+}
 
 export {Station}
