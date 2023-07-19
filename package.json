@@ -7,6 +7,13 @@
   "scripts": {
     "start": "nodemon -r dotenv/config ./src/index.js",
     "test": "node --experimental-vm-modules node_modules/jest/bin/jest.js --runInBand",
+    "setup": "env-cmd node setup/index.js",
+    "setup-logs": "./node_modules/.bin/env-cmd node setup/setupLogs.js",
+    "validate-env": "./node_modules/.bin/env-cmd node setup/validateEnvironment.js",
+    "db:init": "env-cmd node setup/db/conf.js",
+    "db:migrate": "env-cmd node setup/db/migrate.js",
+    "db:seed": "env-cmd node setup/db/seed.js",
+    "seed-for-test": "env-cmd node setup/db/seedForTest.js",
     "prepare": "husky install"
   },
   "keywords": [],
@@ -19,6 +26,7 @@
     "cors": "^2.8.5",
     "crypto": "^1.0.1",
     "dotenv": "^16.3.1",
+    "env-cmd": "^10.1.0",
     "express": "^4.18.2",
     "fast-csv": "^4.3.6",
     "graphql": "^16.7.1",
