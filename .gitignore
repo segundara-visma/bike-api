@@ -6,8 +6,11 @@ yarn-debug.log*
 yarn-error.log*
 lerna-debug.log*
 
+/src/config/sequelize-cli.config.json
+
 # Folders
-tmp/
+src/tmp/*
+src/storage/*
 
 # Diagnostic reports (https://nodejs.org/api/report.html)
 report.[0-9]*.[0-9]*.[0-9]*.[0-9]*.json
@@ -105,3 +108,7 @@ dist
 
 # TernJS port file
 .tern-port
+
+# Exlude from ignore
+!src/tmp/.gitkeep
+!src/storage/.gitkeep
