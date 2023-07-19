@@ -8,7 +8,7 @@
 
 ## Introduction[![](./src/assets/images/pin.jpg)](#introduction)
 
-This personal project is just a simple backend service for Helsinki Bike usage. It made use of apollo server express with graphql to build a GraphQL API, mysql as the database and sequelize as the ORM to communicate with the database.
+This personal project is just a simple backend service for Helsinki Bike usage. It made use of apollo server express with graphql to build a GraphQL API, mysql as the database and sequelize as the ORM to communicate with the database and Jest for testing.
 
 ---
 
