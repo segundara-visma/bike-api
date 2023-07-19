@@ -6,7 +6,7 @@
   "type": "module",
   "scripts": {
     "start": "nodemon -r dotenv/config ./src/index.js",
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "node --experimental-vm-modules node_modules/jest/bin/jest.js --runInBand",
     "prepare": "husky install"
   },
   "keywords": [],
@@ -38,6 +38,8 @@
     "@babel/plugin-syntax-import-assertions": "^7.22.5",
     "eslint": "^8.45.0",
     "husky": "^8.0.0",
+    "jest": "^29.6.1",
+    "jest-html-reporter": "^3.10.1",
     "nodemon": "^3.0.1"
   }
 }
