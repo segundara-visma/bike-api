@@ -39,6 +39,35 @@ cp .env.example .env
 npm install
 ```
 
+***Run setup script.***
+```
+npm run setup --seed
+```
+
+The npm command runs a setup file, which is located in `./setup/index,js`. It will take care of the following setup process.
+
+It will...
+- Check that the required environment variables are set. The process exits if there are any errors.
+- Create a file for Sequelize CLI at `./src/config/sequelize-cli.config.json`.
+  - The file is read by [Sequelize Command Line Interface](https://github.com/sequelize/cli), which is a tool to create and run database migrations and seeders.
+- Validate your database connection. The process exits if there are any errors.
+- Run migrations which creates the needed tables in the database.
+- Run seeders which fill the database tables with initial data. **If you don't want to run the seeders, you can omit the --seed flag.**
+- Create files for the application to write log entries in to.
+  - The files that are going to be created, are listed at ./src/config/logs.js.
+  - The files will be created to the path specified at .env-file (LOG_STORAGE_PATH).
+- Create temporary directories to base tmp directory path specified at .env-file: (TEMPORARY_DIR).
+  - This temporary directory would contain files uploaded from the client. For example an import file.
+
+***Other useful npm scripts.***
+- `npm run setup-logs` Only creates files for the application logs.
+- `npm run validate-env` Only verifies that the required environment variables are set.
+- `npm run db:init` Setup the database with migrations and seeders.
+- `npm run db:migrate` Useful when new migration file is added so as to update the database with the latest migration.
+- `npm run db:seed` Useful when new seeder file is added so as to update the database.
+- `npm run seed-for-test` This is already included in the test suite so as to setup the database for testing purpose only.
+- `npm run test` Runs all the test suite in `./__tests__`-folder.
+
 ***Start the development server with***
 ```
 npm start
