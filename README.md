@@ -22,6 +22,12 @@ You need to have following programs installed:
 
 ---
 
+## Pre-commit hook[![](./src/assets/images/pin.jpg)](#pre-commit-hook)
+
+[Husky](https://typicode.github.io/husky/#/) is used to handle pre-commit test of code against the already pre-defined **ESLint** config before commit to **GIT**. This will automatically check the codes before every commit so as to help with code style consistency.
+
+---
+
 ## Project setup[![](./src/assets/images/pin.jpg)](#project-setup)
 
 ***Clone the repo.***
@@ -75,7 +81,7 @@ npm start
 ---
 
 ## Localization[![](./src/assets/images/pin.jpg)](#localization)
-The project uses [i18next](https://www.npmjs.com/package/i18next) package for localization. Currently the supported languages are English and Finnish. The translateable text is always enclosed in a function which is `__`. E.g. `__('localizationCode')`. The parameter is a made-up code that describes the translation. The syntax for the code is `namespace.describingKeyword`. The namespaces are separated with dots and the syntax is otherwise in camel case. When the program runs, the localization code would be looked up from a localization file. In order for the `i18next` package to find the right translation the code needs to be added to the translation file(s). The previous example of localization code would be described like this in the translation file:
+The project uses [i18next](https://www.npmjs.com/package/i18next) package for localization. Currently the supported languages are English and Finnish. The syntax for the code pointing to the translateable text is in the form of `namespace.describingKeyword`. The namespaces are separated with dots and the syntax is otherwise in camel case. When the program runs, the localization code would be looked up from a localization file. In order for the `i18next` package to find the right translation the code needs to be added to the translation file(s). The previous example of localization code would be described like this in the translation file:
 ```
 {
   "namespace": {
