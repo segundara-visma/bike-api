@@ -46,7 +46,6 @@ npm run setup --seed
 
 The npm command runs a setup file, which is located in `./setup/index,js`. It will take care of the following setup process.
 
-It will...
 - Check that the required environment variables are set. The process exits if there are any errors.
 - Create a file for Sequelize CLI at `./src/config/sequelize-cli.config.json`.
   - The file is read by [Sequelize Command Line Interface](https://github.com/sequelize/cli), which is a tool to create and run database migrations and seeders.
