@@ -1,0 +1,5 @@
+FID,ID,Nimi,Namn,Name,Osoite,Adress,Kaupunki,Stad,Operaattor,Kapasiteet,x,y
+1,1000,UploadTesti1,UploadTesta1,UploadTest1,UploadOsoite 1,UploadAddress 1,Espoo,Esbo,CityBike Finland,10,24.840319,60.16582
+2,1002,UploadTesti2,UploadTesta2,UploadTest2,UploadOsoite 2,UploadAddress 2,Espoo,Esbo,CityBike Finland,28,24.827467,60.171524
+3,1003,UploadTesti3,UploadTesta3,UploadTest3,UploadOsoite 3,UploadAddress 3,Espoo,Esbo,CityBike Finland,16,24.805758,60.168266
+4,1004,UploadTesti4,UploadTesta4,UploadTest4,UploadOsoite 4,UploadAddress 4,Espoo,Esbo,CityBike Finland,16,24.796136,60.168143
