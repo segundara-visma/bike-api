@@ -8,8 +8,11 @@ import {Exception} from '../../helpers/Exception.js'
 import {ProcessHandler} from '../../utilities/ProcessHandler.js'
 import {CsvHandler} from '../../utilities/filesystem/handlers/Csv.js'
 import { storeFileStream } from '../../utilities/filesystem/NewUpload.js'
+import { SystemMessageReporter } from '../../helpers/SystemMessageReporter.js'
 // Repositories
 import {Repository} from '../../repositories/StationRepository.js'
+import LogMessageHandler from '../../utilities/LogMessageHandler.js'
+import LogMessages from '../../utilities/LogMessages.js'
 
 const StationResolvers = {
   /**
@@ -34,11 +37,12 @@ const StationResolvers = {
    * @param {Object} context
    */
   csvImport: async (root, { file }, context) => {
+    const { __ } = context
     const { filename, mimetype, createReadStream } = await file
-    console.log('filename =', filename)
     // Check that the file is either csv or excel.
     if (!CsvHandler.isCsv(mimetype)) {
-      throw Exception.invalidInput([{ message: context.__('filesystem.invalidFileType', { types: 'csv' }) }])
+      const code = LogMessages.INVALID_FILE_TYPE.code
+      throw SystemMessageReporter.invalidFileType(context, [{ message: __(LogMessageHandler.getClientMsg(code)), code }]).graphQLError
     }
 
     const stream = createReadStream()
@@ -56,7 +60,8 @@ const StationResolvers = {
     if (!Array.isArray(rows)) {
       throw Exception.invalidInput([{ message: context.__('import.couldntProcessImportFile') }])
     } else if (rows.length === 0) {
-      throw Exception.invalidInput([{ message: context.__('import.thereAreNoDataRowsImportFile') }])
+      // throw Exception.invalidInput([{ message: context.__('import.thereAreNoDataRowsImportFile') }])
+      throw SystemMessageReporter.invalidInput(context, [{ message: context.__('import.thereAreNoDataRowsImportFile') }]).graphQLError
     }
 
     const headers = [
@@ -78,7 +83,8 @@ const StationResolvers = {
     const suppliedHeaders = Object.keys(rows[0])
     const missingHeaders = headers.filter((a) => { return suppliedHeaders.indexOf(a) === -1 })
     if (missingHeaders.length) {
-      throw Exception.invalidInput([{ message: context.__('import.missingHeadersImportFile', { headers: missingHeaders.join(',') }) }])
+      // throw Exception.invalidInput([{ message: context.__('import.missingHeadersImportFile', { headers: missingHeaders.join(',') }) }])
+      throw SystemMessageReporter.importFileMissingHeaders(context, [{ message: context.__('import.missingHeadersImportFile', { headers: missingHeaders.join(',') }) }], missingHeaders).graphQLError
     }
 
     // After resource is inserted or updated.
@@ -127,15 +133,12 @@ const StationResolvers = {
 
         parsedValues.push(tmpData)
       }
-      console.log('parsedValues[0] =', parsedValues[0])
 
       // Update process message with info.
       process.messages.push({
         status: 'info',
         body: context.__(filename + ' Validated. Preparing for import...')
       })
-      console.log('rows =', rows.length)
-      console.log('parsedValues =', parsedValues.length)
 
       let row
       let currentRow
