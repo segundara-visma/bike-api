@@ -1,14 +1,18 @@
 {
-    "filesystem": {
-      "invalidFileType": "Invalid file type"
-    },
-    "import": {
-      "onRow": "On row {{row}}",
-      "couldntProcessImportFile": "Couldn't process the uploaded file.",
-      "thereAreNoDataRowsImportFile": "The uploaded file had no data values.",
-      "missingHeadersImportFile": "There were some missing headers from the uploaded file. The missing headers were {{headers}}.",
-      "started": "Started import process...",
-      "errorTerminate": "There was an unexpected error during the import process! The process will be terminated.",
-      "completed": "Completed"
-    }
+  "exceptions": {
+    "invalidFileType": "Uploaded file type not accepted",
+    "missingHeadersImportFile": "There were some missing headers from the uploaded file."
+  },
+  "filesystem": {
+    "invalidFileType": "Invalid file type"
+  },
+  "import": {
+    "onRow": "On row {{row}}",
+    "couldntProcessImportFile": "Couldn't process the uploaded file.",
+    "thereAreNoDataRowsImportFile": "The uploaded file had no data values.",
+    "missingHeadersImportFile": "There were some missing headers from the uploaded file. The missing headers were {{headers}}.",
+    "started": "Started import process...",
+    "errorTerminate": "There was an unexpected error during the import process! The process will be terminated.",
+    "completed": "Completed"
+  }
 }
