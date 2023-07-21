@@ -18,6 +18,13 @@ export class Exception {
     return error
   }
 
+  static invalidFileType (errors, code = 422) {
+    const error = new Error(Exception.__('exceptions.invalidFileType'))
+    error.data = errors
+    error.code = code
+    return error
+  }
+
   static notAuthorized (errors) {
     const error = new Error(Exception.__('exceptions.notAuthorizedAction'))
     if (errors) {
